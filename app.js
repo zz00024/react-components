@@ -1,28 +1,36 @@
-// TODO
-/* Inside app.js, create a GroceryList component that contains an unordered list of 2 grocery items. Render this component to the div tag in index.html with an id of app*/
-var GroceryList = (props) => {
+class TodoListItem extends React.Component {
+  constructor(props) {
+    super(props);
 
+    // `state` is just an object literal
+    this.state = {
+      done: false
+    };
+  }
 
+  // When a list item is clicked, we will toggle the `done`
+  // boolean, and our component's `render` method will run again
+  onListItemClick() {
+    this.setState({
+      done: !this.state.done
+    });
+  }
 
-  var onListItemClick = (event) => {
-    console.log('I got clicked');
-  };
+  render() {
+    // Making the style conditional on our `state` lets us
+    // update it based on user interactions.
+    var style = {
+      textDecoration: this.state.done ? 'line-through' : 'none'
+    };
 
-  return (
-    <ul>
-      <li onClick={onListItemClick}>{props.grocery[0]}</li>
-      <li>{props.grocery[1]}</li>
-      <li>{props.grocery[2]}</li>
-    </ul>
-  );
+    // You can pass inline styles using React's `style` attribute to any component
+    // snake-cased css properties become camelCased this this object
+    return (
+      <li style={style} onClick={this.onListItemClick.bind(this)}>{this.props.todo}</li>
+    );
+  }
 }
 
-var GroceryListItem = () => (
-  <div>
-    <h2>My GroceryList List</h2>
-    <GroceryList grocery={['Bread', 'Honey', 'Milk']}/>
-  </div>
-);
 
-ReactDOM.render(<GroceryListItem />, document.getElementById("app"));
 
+ReactDOM.render(<TodoListItem />, document.getElementById("app"));
